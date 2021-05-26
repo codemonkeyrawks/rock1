@@ -1,0 +1,97 @@
+# GitLab Build
+stages:
+  - build
+
+# Linux - Debian 10
+debian-buster-build:
+  stage: build
+
+   # Linux x64
+  image: debian:buster
+
+  script:
+    # Print Build Info
+    - echo "-------------------------------------------" &&
+      echo "Distro   - $(grep PRETTY_NAME /etc/os-release | cut -c 13-)" &&
+      echo "Bash     - $BASH_VERSION" &&
+      echo "Job ID   - $CI_JOB_ID" &&
+      echo "-------------------------------------------"
+
+    # Clone Repo and Test
+    - apt-get update
+    - apt-get dist-upgrade -y
+    - apt-get install -y git
+
+# Linux - Debian 11
+debian-bullseye-build:
+  stage: build
+
+  # Linux x64
+  image: debian:bullseye
+
+  script:
+    # Print Build Info
+    - echo "-------------------------------------------" &&
+      echo "Distro   - $(grep PRETTY_NAME /etc/os-release | cut -c 13-)" &&
+      echo "Bash     - $BASH_VERSION" &&
+      echo "Job ID   - $CI_JOB_ID" &&
+      echo "-------------------------------------------"
+
+    # Clone Repo and Test
+    - apt-get update
+    - apt-get install -y git
+
+# Linux - Ubuntu 20.10
+ubuntu-groovy-build:
+  stage: build
+
+  # Linux x64
+  image: ubuntu:groovy
+    
+  script:
+    # Print Build Info
+    - echo "-------------------------------------------" &&
+      echo "Distro   - $(grep PRETTY_NAME /etc/os-release | cut -c 13-)" &&
+      echo "Bash     - $BASH_VERSION" &&
+      echo "Job ID   - $CI_JOB_ID" &&
+      echo "-------------------------------------------"
+
+    # Clone Repo and Test
+    - apt-get update
+    - apt-get install -y git
+
+# Linux - Ubuntu 21.04
+ubuntu-hirsute-build:
+  stage: build
+
+  # Linux x64
+  image: ubuntu:hirsute
+
+  script:
+    # Print Build Info
+    - echo "-------------------------------------------" &&
+      echo "Distro   - $(grep PRETTY_NAME /etc/os-release | cut -c 13-)" &&
+      echo "Bash     - $BASH_VERSION" &&
+      echo "Job ID   - $CI_JOB_ID" &&
+      echo "-------------------------------------------"
+
+    # Clone Repo and Test
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt-get update
+    - apt-get install -y git
+
+# Windows Prod Build
+windows-build:
+  stage: build
+
+  # Use Windows 2009 AMD x64 Build
+  #image: mcr.microsoft.com/windows:2009-amd64
+  tags:
+    - windows
+
+  script:
+    # Print Build Info
+    - systeminfo /fo csv | ConvertFrom-Csv | select OS*, System* | Format-List
+
+# Allow Build Fails
+.allow_failure: true
